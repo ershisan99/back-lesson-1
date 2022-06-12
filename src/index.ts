@@ -8,6 +8,7 @@ let videos = [
    { id: 4, title: 'About JS - 04', author: 'it-incubator.eu' },
    { id: 5, title: 'About JS - 05', author: 'it-incubator.eu' },
 ]
+const maxLength = 40
 dotenv.config()
 
 const app: Express = express()
@@ -39,7 +40,16 @@ app.post('/videos', (req: Request, res: Response) => {
             ],
          })
       }
-
+      if (req.body.title.length > maxLength) {
+         res.status(400).json({
+            errorsMessages: [
+               {
+                  message: `title length must be less than ${maxLength}`,
+                  field: 'title',
+               },
+            ],
+         })
+      }
       const newVideo = {
          id: new Date().getTime(),
          title: req.body.title,
@@ -63,6 +73,16 @@ app.put('/videos/:videoId', (req: Request, res: Response) => {
          errorsMessages: [
             {
                message: 'Missing data',
+               field: 'title',
+            },
+         ],
+      })
+   }
+   if (req.body.title.length > maxLength) {
+      res.status(400).json({
+         errorsMessages: [
+            {
+               message: `title length must be less than ${maxLength}`,
                field: 'title',
             },
          ],
