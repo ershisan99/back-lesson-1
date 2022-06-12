@@ -37,18 +37,11 @@ app.post('/videos', (req: Request, res: Response) => {
             },
          })
       }
-      if (!req.body.author) {
-         res.status(400).json({
-            errorsMessages: {
-               message: 'Missing data',
-               field: 'author',
-            },
-         })
-      }
+
       const newVideo = {
          id: new Date().getTime(),
          title: req.body.title,
-         author: req.body.author,
+         author: 'it-incubator.eu',
       }
       videos.push(newVideo)
       res.send(newVideo)
