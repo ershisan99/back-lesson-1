@@ -31,10 +31,12 @@ app.post('/videos', (req: Request, res: Response) => {
    try {
       if (!req.body.title) {
          res.status(400).json({
-            errorsMessages: {
-               message: 'Missing data',
-               field: 'title',
-            },
+            errorsMessages: [
+               {
+                  message: 'Missing data',
+                  field: 'title',
+               },
+            ],
          })
       }
 
@@ -44,7 +46,7 @@ app.post('/videos', (req: Request, res: Response) => {
          author: 'it-incubator.eu',
       }
       videos.push(newVideo)
-      res.send(newVideo)
+      res.status(201).send(newVideo)
    } catch (err) {
       res.sendStatus(400).send({
          errorsMessages: {
@@ -58,10 +60,12 @@ app.post('/videos', (req: Request, res: Response) => {
 app.put('/videos/:videoId', (req: Request, res: Response) => {
    if (!req.body.title) {
       res.status(400).json({
-         errorsMessages: {
-            message: 'Missing data',
-            field: 'title',
-         },
+         errorsMessages: [
+            {
+               message: 'Missing data',
+               field: 'title',
+            },
+         ],
       })
    }
    const video = videos.find(
@@ -71,7 +75,7 @@ app.put('/videos/:videoId', (req: Request, res: Response) => {
    if (!video) {
       res.sendStatus(404)
    } else video.title = req.body.title
-   res.send(video)
+   res.sendStatus(204)
 })
 app.delete('/videos/:videoId', (req: Request, res: Response) => {
    const video = videos.findIndex(
