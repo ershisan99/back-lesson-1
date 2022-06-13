@@ -93,7 +93,7 @@ postsRouter.post(
 )
 
 postsRouter.put(
-   '/:bloggerId',
+   '/:id',
    titleValidator,
    shortDescriptionValidator,
    contentValidator,
@@ -101,14 +101,14 @@ postsRouter.put(
    postValidationMiddleware,
    (req: Request, res: Response) => {
       try {
-         const post = posts.find(
-            (post) => post.id === parseInt(req.params.bloggerId)
-         )
+         const post = posts.find((post) => post.id === parseInt(req.params.id))
          const blogger = bloggers.find(
-            (blogger) => blogger.id === parseInt(req.body.bloggerId)
+            (blogger) => blogger.id === parseInt(req.body.id)
          )
 
-         if (!post || !blogger) {
+         if (!post) {
+            res.sendStatus(404)
+         } else if (!blogger) {
             res.status(400).json({
                errorsMessages: [
                   { message: 'blogger not found', field: 'bloggerId' },
