@@ -73,6 +73,7 @@ bloggersRouter.put(
          } else {
             blogger.name = req.body.name
             blogger.youtubeUrl = req.body.youtubeUrl
+            res.sendStatus(204)
          }
       } catch (err) {
          res.sendStatus(500).json(err)
@@ -88,6 +89,7 @@ bloggersRouter.delete('/:id', (req: Request, res: Response) => {
          res.sendStatus(404)
       } else {
          bloggers.splice(bloggers.indexOf(blogger), 1)
+         res.sendStatus(204)
       }
    } catch (err) {
       res.sendStatus(500).json(err)
