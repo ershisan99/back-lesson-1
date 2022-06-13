@@ -2,7 +2,7 @@ import {
    nameValidationMiddleware,
    nameValidator,
    youtubeUrlValidator,
-} from './bloggers-validators'
+} from '../validators/bloggers-validators'
 import { Router } from 'express'
 import { Request, Response } from 'express'
 
@@ -13,7 +13,7 @@ interface Blogger {
    name: string
    youtubeUrl: string
 }
-const bloggers: Array<Blogger> = [
+export const bloggers: Array<Blogger> = [
    { id: 1, name: 'it-kamasutra', youtubeUrl: 'youtube.com/it-kamasutra' },
    { id: 2, name: 'it-incubator', youtubeUrl: 'youtube.com/it-incubator' },
 ]
