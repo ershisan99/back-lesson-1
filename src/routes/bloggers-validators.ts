@@ -8,8 +8,6 @@ export const nameValidator = body('name')
    .withMessage('Name must be less than 15 characters')
 export const youtubeUrlValidator = body('youtubeUrl')
    .trim()
-   .notEmpty()
-   .withMessage('Youtube URL is required')
    .isLength({ min: 0, max: 100 })
    .withMessage('Youtube URL must be less than 100 characters')
    .matches(
