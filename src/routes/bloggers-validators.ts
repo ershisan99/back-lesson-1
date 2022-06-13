@@ -1,15 +1,11 @@
 import { Request, Response, NextFunction } from 'express'
 import { body, validationResult } from 'express-validator'
 export const nameValidator = body('name')
-   .notEmpty()
-   .withMessage('Name is required')
    .isString()
    .withMessage('Name must be a string')
    .isLength({ min: 0, max: 15 })
    .withMessage('Name must be less than 15 characters')
 export const youtubeUrlValidator = body('youtubeUrl')
-   .notEmpty()
-   .withMessage('Youtube URL is required')
    .isString()
    .withMessage('Youtube URL must be a string')
    .isLength({ min: 0, max: 100 })
