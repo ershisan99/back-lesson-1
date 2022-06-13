@@ -103,8 +103,13 @@ postsRouter.put(
          const blogger = bloggers.find(
             (blogger) => blogger.id === parseInt(req.body.bloggerId)
          )
+
          if (!post || !blogger) {
-            res.send(404)
+            res.status(400).json({
+               errorsMessages: [
+                  { message: 'blogger not found', field: 'bloggerId' },
+               ],
+            })
          } else {
             post.title = req.body.title
             post.shortDescription = req.body.shortDescription
