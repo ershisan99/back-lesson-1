@@ -69,7 +69,11 @@ postsRouter.post(
             (blogger) => blogger.id === parseInt(req.body.bloggerId)
          )
          if (!blogger) {
-            res.sendStatus(404)
+            res.status(400).json({
+               errorsMessages: [
+                  { message: 'blogger not found', field: 'bloggerId' },
+               ],
+            })
          } else {
             const newPost: Post = {
                id: new Date().getTime(),
