@@ -50,6 +50,7 @@ bloggersRouter.post(
             name: req.body.name,
             youtubeUrl: req.body.youtubeUrl,
          }
+         bloggers.push(newBlogger)
          res.status(201).json(newBlogger)
       } catch (err) {
          res.sendStatus(500).json(err)
