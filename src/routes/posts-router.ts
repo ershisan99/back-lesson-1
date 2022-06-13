@@ -103,7 +103,7 @@ postsRouter.put(
       try {
          const post = posts.find((post) => post.id === parseInt(req.params.id))
          const blogger = bloggers.find(
-            (blogger) => blogger.id === parseInt(req.body.id)
+            (blogger) => blogger.id === parseInt(req.body.bloggerId)
          )
 
          if (!post) {
