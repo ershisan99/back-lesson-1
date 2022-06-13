@@ -1,3 +1,4 @@
+import { videosRepository } from './../repositories/videos-repository'
 import { Router } from 'express'
 import { Request, Response } from 'express'
 
@@ -11,16 +12,19 @@ let videos = [
 ]
 export const videosRouter = Router({})
 videosRouter.get('/', (req: Request, res: Response) => {
-   res.send(videos)
+   try {
+      res.send(videos)
+   } catch (err) {
+      res.sendStatus(500).json(err)
+   }
 })
 videosRouter.get('/videos/:videoId', (req: Request, res: Response) => {
-   const video = videos.find(
-      (video) => video.id === parseInt(req.params.videoId)
-   )
-   if (!video) {
-      res.sendStatus(404)
+   try {
+      const video = videosRepository.getVideos()
+      res.send(video)
+   } catch (err) {
+      res.status(404).json(err)
    }
-   res.send(video)
 })
 videosRouter.post('/', (req: Request, res: Response) => {
    try {
@@ -44,12 +48,7 @@ videosRouter.post('/', (req: Request, res: Response) => {
             ],
          })
       }
-      const newVideo = {
-         id: new Date().getTime(),
-         title: req.body.title,
-         author: 'it-incubator.eu',
-      }
-      videos.push(newVideo)
+      const newVideo = videosRepository.createVideo(req.body.title)
       res.status(201).send(newVideo)
    } catch (err) {
       res.sendStatus(400).send({
@@ -82,20 +81,23 @@ videosRouter.put('/:videoId', (req: Request, res: Response) => {
          ],
       })
    }
-   const video = videos.find(
-      (video) => video.id === parseInt(req.params.videoId)
-   )
-
-   if (!video) {
+   try {
+      const video = videosRepository.updateVideoById(
+         parseInt(req.params.videoId),
+         req.body.title
+      )
+      video && res.sendStatus(204)
+   } catch (err) {
       res.sendStatus(404)
-   } else video.title = req.body.title
-   res.sendStatus(204)
+   }
 })
 videosRouter.delete('/:videoId', (req: Request, res: Response) => {
-   const video = videos.findIndex(
-      (video) => video.id === parseInt(req.params.videoId)
-   )
-   if (video === -1) res.sendStatus(404)
-   videos.splice(video, 1)
-   res.sendStatus(204)
+   try {
+      const deletedVideo = videosRepository.deleteVideoById(
+         parseInt(req.params.videoId)
+      )
+      res.sendStatus(204)
+   } catch (err) {
+      res.status(404)
+   }
 })
